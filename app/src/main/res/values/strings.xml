@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ImuCollector</string>
+    <string name="recordLabelText">Record</string>
 </resources>
