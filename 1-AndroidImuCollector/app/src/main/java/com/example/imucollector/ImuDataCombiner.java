@@ -15,14 +15,14 @@ public class ImuDataCombiner {
     }
 
     public void AddAcc(long timestamp, float[] acc) {
-        ImuData imuData = map.getOrDefault(timestamp, new ImuData());
+        ImuData imuData = map.getOrDefault(timestamp, new ImuData(timestamp));
         assert imuData != null;
         imuData.acc = acc;
         map.put(timestamp, imuData);
     }
 
     public void AddGyro(long timestamp, float[] ang) {
-        ImuData imuData = map.getOrDefault(timestamp, new ImuData());
+        ImuData imuData = map.getOrDefault(timestamp, new ImuData(timestamp));
         assert imuData != null;
         imuData.ang = ang;
         map.put(timestamp, imuData);

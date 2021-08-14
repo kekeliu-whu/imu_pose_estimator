@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 try {
                     filenamePrefix = String.valueOf(System.currentTimeMillis());
                     fileOutputStreamAcc = openFileOutput(filenamePrefix + "-imu.txt", MODE_PRIVATE);
+                    fileOutputStreamAcc.write("timestamp,gx,gy,gz,gxb,gyb,gzb,ax,ay,az,axb,ayb,azb\n".getBytes());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
