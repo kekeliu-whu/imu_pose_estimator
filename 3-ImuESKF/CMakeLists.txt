@@ -30,5 +30,5 @@ catkin_package(
         INCLUDE_DIRS include
 )
 
-add_executable(imu_eskf_demo main.cpp simple_estimator.cc)
+add_executable(imu_eskf_demo main.cpp simple_estimator.cc ekf_estimator.cc ekf_estimator.h eskf_estimator.cc complementary_filter_estimator.cc)
 target_link_libraries(imu_eskf_demo ${catkin_LIBRARIES} ${CERES_LIBRARIES} ${PCL_LIBRARIES} ${Protobuf_LIBRARIES})
