@@ -4,33 +4,9 @@
 #include <sensor_msgs/Imu.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <ros/ros.h>
-#include <Eigen/Eigen>
 #include <thread>
 #include <glog/logging.h>
-
-using Quaterniond = Eigen::Quaterniond;
-using Vec3d = Eigen::Vector3d;
-
-namespace {
-    bool g_init_ok = false;
-    Quaterniond g_pose;
-    double g_last_timestamp;
-}
-
-Quaterniond EstimatePose(double timestamp, const Vec3d &ang, const Vec3d &acc) {
-    if (!g_init_ok) {
-        g_pose = Quaterniond::Identity();
-        g_init_ok = true;
-        g_last_timestamp = timestamp;
-        return g_pose;
-    }
-    double delta_t = timestamp - g_last_timestamp;
-    g_pose *= Quaterniond(1, ang[0] * delta_t / 2, ang[1] * delta_t / 2, ang[2] * delta_t / 2);
-    g_pose.normalize();
-
-    g_last_timestamp = timestamp;
-    return g_pose;
-}
+#include "simple_estimator.h"
 
 int main(int argc, char **argv) {
     // init ros
@@ -43,18 +19,19 @@ int main(int argc, char **argv) {
     rosbag::Bag bag;
     bag.open(argv[1]);  // BagMode is Read by default
 
+    std::unique_ptr<Estimator> estimator = std::make_unique<SimpleEstimator>();
+
     // todo change to timestamp gap
-    ros::Rate loop_rate(200);
-    for (rosbag::MessageInstance const m: rosbag::View(bag)) {
+    for (const auto &m: rosbag::View(bag)) {
         const boost::shared_ptr<sensor_msgs::Imu> &imu_ptr = m.instantiate<sensor_msgs::Imu>();
         if (imu_ptr) {
             auto cur_timestamp = imu_ptr->header.stamp.toSec();
-            auto time_interval = cur_timestamp - g_last_timestamp;
+            auto time_interval = estimator->get_init_ok() ? cur_timestamp - estimator->get_last_timestamp() : 0;
 
-            auto pose = EstimatePose(
+            auto pose = estimator->EstimatePose(
                     cur_timestamp,
                     {imu_ptr->angular_velocity.x, imu_ptr->angular_velocity.y, imu_ptr->angular_velocity.z},
-                    Vec3d()
+                    {imu_ptr->linear_acceleration.x, imu_ptr->linear_acceleration.y, imu_ptr->linear_acceleration.z}
             );
 
             geometry_msgs::PoseStamped poseStamped;
