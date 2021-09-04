@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.15)
 project(imu_eskf)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -30,5 +30,16 @@ catkin_package(
         INCLUDE_DIRS include
 )
 
-add_executable(imu_eskf_demo main.cpp simple_estimator.cc ekf_estimator.cc ekf_estimator.h eskf_estimator.cc complementary_filter_estimator.cc)
+set(PROJECT_SRCS
+        simple_estimator.cc
+        ekf_estimator.cc
+        eskf_estimator.cc
+        complementary_filter_estimator.cc
+        )
+
+add_executable(imu_eskf_demo main.cpp ${PROJECT_SRCS})
 target_link_libraries(imu_eskf_demo ${catkin_LIBRARIES} ${CERES_LIBRARIES} ${PCL_LIBRARIES} ${Protobuf_LIBRARIES})
+
+include(cmake/google-test.cmake)
+google_enable_testing()
+add_test_library_srcs(${PROJECT_SRCS})
