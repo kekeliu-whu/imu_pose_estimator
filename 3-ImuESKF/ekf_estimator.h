@@ -5,6 +5,8 @@
 #include "estimator.h"
 
 class EkfEstimator : public Estimator {
+public:
+    Quaterniond EstimatePose(double timestamp, const Vec3d &ang, const Vec3d &acc) override;
 
 };
 
