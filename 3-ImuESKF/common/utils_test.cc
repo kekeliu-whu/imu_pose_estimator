@@ -7,7 +7,7 @@ TEST(UtilsTest, Ql) {
     auto q1 = Quaterniond::UnitRandom();
     auto q2 = Quaterniond::UnitRandom();
 
-    Eigen::Vector4d ans1 = Ql<double>(q1) * q2.coeffs();
+    Eigen::Vector4d ans1 = Ql(q1) * q2.coeffs();
     Eigen::Vector4d ans2 = (q1 * q2).coeffs();
     EXPECT_LT((ans1 - ans2).norm(), kEpsilon);
 }
@@ -16,7 +16,7 @@ TEST(UtilsTest, Qr) {
     auto q1 = Quaterniond::UnitRandom();
     auto q2 = Quaterniond::UnitRandom();
 
-    Eigen::Vector4d ans1 = Qr<double>(q2) * q1.coeffs();
+    Eigen::Vector4d ans1 = Qr(q2) * q1.coeffs();
     Eigen::Vector4d ans2 = (q1 * q2).coeffs();
     EXPECT_LT((ans1 - ans2).norm(), kEpsilon);
 }

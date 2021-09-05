@@ -12,7 +12,7 @@ inline Eigen::Matrix3d Skew(const Vec3d &t) {
 
 // eigen quaternion memory layout is xyzw instead of wxyz
 template<typename T>
-Eigen::Matrix<T, 4, 4> Ql(const Quaterniond &q) {
+Eigen::Matrix<T, 4, 4> Ql(const Eigen::Quaternion<T> &q) {
     Eigen::Matrix<T, 4, 4> ans;
     ans.template block<3, 3>(0, 0) = Eigen::Matrix3d::Identity() * q.w() + Skew(q.vec());
     ans.template block<3, 1>(0, 3) = q.vec();
@@ -22,7 +22,7 @@ Eigen::Matrix<T, 4, 4> Ql(const Quaterniond &q) {
 }
 
 template<typename T>
-Eigen::Matrix<T, 4, 4> Qr(Quaterniond q) {
+Eigen::Matrix<T, 4, 4> Qr(const Eigen::Quaternion<T> &q) {
     Eigen::Matrix<T, 4, 4> ans;
     ans.template block<3, 3>(0, 0) = Eigen::Matrix3d::Identity() * q.w() - Skew(q.vec());
     ans.template block<3, 1>(0, 3) = q.vec();

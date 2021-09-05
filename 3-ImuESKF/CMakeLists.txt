@@ -3,7 +3,8 @@ project(imu_eskf)
 
 set(CMAKE_CXX_STANDARD 14)
 
-find_package(catkin REQUIRED COMPONENTS
+find_package(
+        catkin REQUIRED COMPONENTS
         geometry_msgs
         nav_msgs
         sensor_msgs
@@ -11,7 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
         rospy
         rosbag
         std_msgs
-        tf)
+        tf
+)
 
 find_package(PCL REQUIRED)
 find_package(Ceres REQUIRED)
@@ -30,12 +32,13 @@ catkin_package(
         INCLUDE_DIRS include
 )
 
-set(PROJECT_SRCS
-        simple_estimator.cc
-        ekf_estimator.cc
-        eskf_estimator.cc
-        complementary_filter_estimator.cc
-        )
+set(
+        PROJECT_SRCS
+        estimator/simple_estimator.cc
+        estimator/ekf_estimator.cc
+        estimator/eskf_estimator.cc
+        estimator/complementary_filter_estimator.cc
+)
 
 add_executable(imu_eskf_demo main.cpp ${PROJECT_SRCS})
 target_link_libraries(imu_eskf_demo ${catkin_LIBRARIES} ${CERES_LIBRARIES} ${PCL_LIBRARIES} ${Protobuf_LIBRARIES})
