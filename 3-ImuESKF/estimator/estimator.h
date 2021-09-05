@@ -1,7 +1,7 @@
 #ifndef IMU_ESKF_ESTIMATOR_H
 #define IMU_ESKF_ESTIMATOR_H
 
-#include "common.h"
+#include "../common/common.h"
 
 class Estimator {
 public:

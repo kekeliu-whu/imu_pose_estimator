@@ -6,7 +6,7 @@
 #include <ros/ros.h>
 #include <thread>
 #include <glog/logging.h>
-#include "simple_estimator.h"
+#include "estimator/simple_estimator.h"
 
 int main(int argc, char **argv) {
     // init ros
