@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(imu_eskf)
 
 set(CMAKE_CXX_STANDARD 14)
+#set(CMAKE_CXX_FLAGS "-march=native")
 
 find_package(
         catkin REQUIRED COMPONENTS
@@ -20,6 +21,7 @@ find_package(Ceres REQUIRED)
 
 include_directories(
         include
+        .
         src
         ${catkin_INCLUDE_DIRS}
         ${PCL_INCLUDE_DIRS}

@@ -25,12 +25,23 @@ foreach (ABS_FIL ${ALL_TESTS})
     # Replace slashes as required for CMP0037.
     string(REPLACE "/" "." TEST_TARGET_NAME "${DIR}/${FIL_WE}")
     google_test("${TEST_TARGET_NAME}" ${ABS_FIL})
-    target_link_libraries("${TEST_TARGET_NAME}" PUBLIC ${TEST_LIB})
+    target_link_libraries("${TEST_TARGET_NAME}" PUBLIC ${TEST_LIB} glog)
+endforeach ()
+
+file(GLOB_RECURSE ALL_BENCHMARKS "*_benchmark.cc")
+foreach (ABS_FIL ${ALL_BENCHMARKS})
+    file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
+    get_filename_component(DIR ${REL_FIL} DIRECTORY)
+    get_filename_component(FIL_WE ${REL_FIL} NAME_WE)
+    # Replace slashes as required for CMP0037.
+    string(REPLACE "/" "." TEST_TARGET_NAME "${DIR}/${FIL_WE}")
+    google_test("${TEST_TARGET_NAME}" ${ABS_FIL})
+    target_link_libraries("${TEST_TARGET_NAME}" PUBLIC ${TEST_LIB} glog benchmark)
 endforeach ()
 
 macro(google_enable_testing)
     enable_testing()
-#    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-#            ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
-#    find_package(GMock REQUIRED)
+    #    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+    #            ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
+    #    find_package(GMock REQUIRED)
 endmacro()
