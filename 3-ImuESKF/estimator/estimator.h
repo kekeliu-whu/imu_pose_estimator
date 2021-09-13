@@ -5,27 +5,22 @@
 
 class Estimator {
 public:
-    Estimator() = default;
+  Estimator() = default;
 
-    virtual ~Estimator() = default;
+  virtual ~Estimator() = default;
 
-    virtual Quaterniond EstimatePose(double timestamp, const Vec3d &ang, const Vec3d &acc) = 0;
-
+  virtual Quaterniond EstimatePose(double timestamp, const Vec3d &ang,
+                                   const Vec3d &acc) = 0;
 
 public:
-    double get_last_timestamp() const {
-        return last_timestamp;
-    }
+  double get_last_timestamp() const { return last_timestamp; }
 
-    bool get_init_ok() const {
-        return init_ok;
-    }
-
+  bool get_init_ok() const { return init_ok; }
 
 protected:
-    bool init_ok;
-    Quaterniond pose;
-    double last_timestamp;
+  bool init_ok;
+  Quaterniond pose;
+  double last_timestamp;
 };
 
-#endif //IMU_ESKF_ESTIMATOR_H
+#endif // IMU_ESKF_ESTIMATOR_H
