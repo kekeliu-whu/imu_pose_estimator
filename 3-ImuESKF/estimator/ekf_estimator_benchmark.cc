@@ -1,5 +1,5 @@
-#include "ekf_estimator.h"
 #include "common/utils.h"
+#include "ekf_estimator.h"
 
 #include <ceres/ceres.h>
 #include <gtest/gtest.h>
@@ -7,31 +7,30 @@
 #include <benchmark/benchmark.h>
 
 static void BM_SomeFunction(benchmark::State &state) {
-    // Perform setup here
-    auto f = CostFunctor::Create({3, 4, 5});
+  // Perform setup here
+  auto f = CostFunctor::Create({3, 4, 5});
 
-    double q[] = {0, 0, 0, 1};
-    std::vector<double *> pb;
-    pb.push_back(q);
+  double q[] = {0, 0, 0, 1};
+  std::vector<double *> pb;
+  pb.push_back(q);
 
-    double buffer[100];
+  double buffer[100];
 
-    std::vector<double *> jacobians;
-    Eigen::Matrix<double, 3, 4> J;
-    for (int i = 0; i < J.rows(); ++i) {
-        jacobians.push_back(&J(i, 0));
-    }
+  std::vector<double *> jacobians;
+  Eigen::Matrix<double, 3, 4> J;
+  for (int i = 0; i < J.rows(); ++i) {
+    jacobians.push_back(&J(i, 0));
+  }
 
-    for (auto _: state) {
-        // This code gets timed
-        f->Evaluate(pb.data(), buffer, jacobians.data());
-    }
+  for (auto _ : state) {
+    // This code gets timed
+    f->Evaluate(pb.data(), buffer, jacobians.data());
+  }
 }
 // Register the function as a benchmark
 BENCHMARK(BM_SomeFunction);
 // Run the benchmark
 BENCHMARK_MAIN();
-
 
 /*
 
@@ -44,7 +43,8 @@ Result:
       L2 Unified 256K (x4)
       L3 Unified 8192K (x1)
   Load Average: 1.80, 1.64, 1.50
-  ***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+  ***WARNING*** CPU scaling is enabled, the benchmark real time measurements may
+be noisy and will incur extra overhead.
   ----------------------------------------------------------
   Benchmark                Time             CPU   Iterations
   ----------------------------------------------------------
@@ -58,7 +58,8 @@ Result:
     L2 Unified 256K (x4)
     L3 Unified 8192K (x1)
   Load Average: 1.95, 1.81, 1.59
-  ***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+  ***WARNING*** CPU scaling is enabled, the benchmark real time measurements may
+be noisy and will incur extra overhead.
   ----------------------------------------------------------
   Benchmark                Time             CPU   Iterations
   ----------------------------------------------------------
