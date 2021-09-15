@@ -2,8 +2,6 @@
 #include "common/common.h"
 #include "common/utils.h"
 
-#include <Eigen/src/Core/Matrix.h>
-#include <Eigen/src/Geometry/Quaternion.h>
 #include <ceres/ceres.h>
 
 namespace {
@@ -32,7 +30,7 @@ Eigen::Matrix<double, 3, 4> GetMeasureEquationJacobian(const Quaterniond &q,
 Quaterniond EkfEstimator::EstimatePose(double timestamp, const Vec3d &ang,
                                        const Vec3d &acc) {
   if (!this->init_ok) {
-    this->pose = Quaterniond::Identity();
+    this->InitPoseByGravity(acc);
     this->init_ok = true;
     this->last_timestamp = timestamp;
     this->P.setZero();

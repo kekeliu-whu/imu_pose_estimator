@@ -3,7 +3,7 @@
 Quaterniond SimpleEstimator::EstimatePose(double timestamp, const Vec3d &ang,
                                           const Vec3d &acc) {
   if (!this->init_ok) {
-    this->pose = Quaterniond::Identity();
+    this->InitPoseByGravity(acc);
     this->init_ok = true;
     this->last_timestamp = timestamp;
     return this->pose;

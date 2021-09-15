@@ -1,7 +1,7 @@
 #ifndef IMU_ESKF_UTILS_H
 #define IMU_ESKF_UTILS_H
 
-#include "common.h"
+#include "common/common.h"
 #include <Eigen/src/Core/Matrix.h>
 
 inline Eigen::Matrix3d Skew(const Vec3d &t) {

@@ -7,8 +7,6 @@ class SimpleEstimator : public Estimator {
 public:
   SimpleEstimator() {
     this->init_ok = false;
-    this->pose = Quaterniond::Identity();
-    this->last_timestamp = 0;
   }
 
   Quaterniond EstimatePose(double timestamp, const Vec3d &ang,
