@@ -1,3 +1,4 @@
+#include "estimator/ekf_estimator.h"
 #include "estimator/simple_estimator.h"
 #include <geometry_msgs/PoseStamped.h>
 #include <glog/logging.h>
@@ -20,9 +21,8 @@ int main(int argc, char **argv) {
   rosbag::Bag bag;
   bag.open(argv[1]); // BagMode is Read by default
 
-  std::unique_ptr<Estimator> estimator = std::make_unique<SimpleEstimator>();
+  std::unique_ptr<Estimator> estimator = std::make_unique<EkfEstimator>();
 
-  // todo change to timestamp gap
   for (const auto &m : rosbag::View(bag)) {
     const boost::shared_ptr<sensor_msgs::Imu> &imu_ptr =
         m.instantiate<sensor_msgs::Imu>();

@@ -5,8 +5,7 @@
 #include <ceres/ceres.h>
 
 namespace {
-Eigen::Matrix<double, 3, 4> GetMeasureEquationJacobian(const Quaterniond &q,
-                                                       const Vec3d &g) {
+Eigen::Matrix<double, 3, 4> GetMeasureEquationJacobian(const Quaterniond &q, const Vec3d &g) {
   auto f = CostFunctor::Create(g);
 
   std::vector<const double *> pb;
@@ -27,39 +26,39 @@ Eigen::Matrix<double, 3, 4> GetMeasureEquationJacobian(const Quaterniond &q,
 }
 } // namespace
 
-Quaterniond EkfEstimator::EstimatePose(double timestamp, const Vec3d &ang,
-                                       const Vec3d &acc) {
+Quaterniond EkfEstimator::EstimatePose(double timestamp, const Vec3d &ang, const Vec3d &linear_acceleration) {
+  // normalize acc and consider it as gravity vector directly
+  auto acc_norm = linear_acceleration.normalized();
+
+  double dt = timestamp - this->last_timestamp;
+  this->last_timestamp = timestamp;
   if (!this->init_ok) {
-    this->InitPoseByGravity(acc);
+    this->InitPoseByGravity(acc_norm);
     this->init_ok = true;
-    this->last_timestamp = timestamp;
     this->P.setZero();
-    this->g_w = acc;
+    this->g_w = acc_norm;
     return this->pose;
   }
 
-  auto delta_theta = (timestamp - last_timestamp) * ang;
-  auto dq =
-      Quaterniond(1, delta_theta.x() / 2, delta_theta.y() / 2, delta_theta.z());
+  auto delta_theta = dt * ang;
+  auto dq = Quaterniond(1, delta_theta.x() / 2, delta_theta.y() / 2, delta_theta.z() / 2);
   Eigen::Matrix<double, 4, 4> F = Qr(dq);
 
+  // TODO fine-tune progress noise and measurement noise here.
+  const Eigen::Matrix4d R = Eigen::Matrix4d::Identity() * 0.01;
+  const Eigen::Matrix3d Q = Eigen::Matrix3d::Identity() * 0.1;
+
   // predict
-  // todo kk add progress noise
   Quaterniond x_prior = this->pose * dq;
   x_prior.normalize();
-  Eigen::Matrix<double, 4, 4> P_prior = F * this->P * F.transpose();
+  Eigen::Matrix<double, 4, 4> P_prior = F * this->P * F.transpose() + R;
 
   // update
-  // todo kk add measurement noise
   // todo kk do not use inverse()
-  Eigen::Matrix<double, 3, 4> H =
-      GetMeasureEquationJacobian(x_prior, this->g_w);
-  Eigen::Matrix<double, 4, 3> K =
-      P_prior * H.transpose() * (H * P_prior * H.transpose()).inverse();
-  Eigen::Matrix<double, 4, 1> x_posterior =
-      x_prior.coeffs() + K * (acc - x_prior.inverse() * this->g_w);
-  Eigen::Matrix<double, 4, 4> P_posterior =
-      (Eigen::Matrix4d::Identity() - K * H) * P_prior;
+  Eigen::Matrix<double, 3, 4> H = GetMeasureEquationJacobian(x_prior, this->g_w);
+  Eigen::Matrix<double, 4, 3> K = P_prior * H.transpose() * (H * P_prior * H.transpose() + Q).inverse();
+  Eigen::Matrix<double, 4, 1> x_posterior = x_prior.coeffs() + K * (acc_norm - x_prior.inverse() * this->g_w);
+  Eigen::Matrix<double, 4, 4> P_posterior = (Eigen::Matrix4d::Identity() - K * H) * P_prior;
 
   this->pose = x_posterior;
   this->pose.normalize();
