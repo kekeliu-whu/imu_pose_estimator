@@ -46,5 +46,5 @@ add_executable(imu_eskf_demo main.cpp ${PROJECT_SRCS})
 target_link_libraries(imu_eskf_demo ${catkin_LIBRARIES} ${CERES_LIBRARIES} ${PCL_LIBRARIES} ${Protobuf_LIBRARIES})
 
 include(cmake/google-test.cmake)
-google_enable_testing()
 add_test_library_srcs(${PROJECT_SRCS})
+enable_automatic_test_and_benchmark()
