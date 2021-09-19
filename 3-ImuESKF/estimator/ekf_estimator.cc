@@ -26,7 +26,8 @@ Eigen::Matrix<double, 3, 4> GetMeasureEquationJacobian(const Quaterniond &q, con
 }
 } // namespace
 
-Quaterniond EkfEstimator::EstimatePose(double timestamp, const Vec3d &ang, const Vec3d &linear_acceleration) {
+Quaterniond EkfEstimator::EstimatePose(double timestamp, const Vec3d &angular_velocity,
+                                       const Vec3d &linear_acceleration) {
   // normalize acc and consider it as gravity vector directly
   auto acc_norm = linear_acceleration.normalized();
 
@@ -40,7 +41,7 @@ Quaterniond EkfEstimator::EstimatePose(double timestamp, const Vec3d &ang, const
     return this->pose;
   }
 
-  auto delta_theta = dt * ang;
+  auto delta_theta = dt * angular_velocity;
   auto dq = Quaterniond(1, delta_theta.x() / 2, delta_theta.y() / 2, delta_theta.z() / 2);
   Eigen::Matrix<double, 4, 4> F = Qr(dq);
 

@@ -9,8 +9,8 @@ public:
 
   virtual ~Estimator() = default;
 
-  virtual Quaterniond EstimatePose(double timestamp, const Vec3d &ang,
-                                   const Vec3d &acc) = 0;
+  virtual Quaterniond EstimatePose(double timestamp, const Vec3d &angular_velocity,
+                                   const Vec3d &linear_acceleration) = 0;
 
 public:
   double get_last_timestamp() const { return last_timestamp; }
@@ -26,6 +26,6 @@ protected:
   bool init_ok;
   Quaterniond pose;
   double last_timestamp;
-};
+}; 
 
 #endif // IMU_ESKF_ESTIMATOR_H
