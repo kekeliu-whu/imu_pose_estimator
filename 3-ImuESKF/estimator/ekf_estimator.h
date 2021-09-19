@@ -8,8 +8,7 @@
 
 class EkfEstimator : public Estimator {
 public:
-  Quaterniond EstimatePose(double timestamp, const Vec3d &ang,
-                           const Vec3d &acc) override;
+  Quaterniond EstimatePose(double timestamp, const Vec3d &angular_velocity, const Vec3d &linear_acceleration) override;
 
 private:
   Eigen::Matrix4d P;
@@ -28,8 +27,7 @@ public:
   }
 
   static ceres::CostFunction *Create(const Vec3d &g) {
-    return new ceres::AutoDiffCostFunction<CostFunctor, 3, 4>(
-        new CostFunctor(g));
+    return new ceres::AutoDiffCostFunction<CostFunctor, 3, 4>(new CostFunctor(g));
   }
 
 private:

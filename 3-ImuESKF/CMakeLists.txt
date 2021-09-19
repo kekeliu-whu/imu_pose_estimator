@@ -31,7 +31,6 @@ include_directories(
 catkin_package(
         CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs
         DEPENDS EIGEN3
-        INCLUDE_DIRS include
 )
 
 set(
