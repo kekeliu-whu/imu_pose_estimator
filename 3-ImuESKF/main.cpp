@@ -1,3 +1,4 @@
+#include "estimator/complementary_filter_estimator.h"
 #include "estimator/ekf_estimator.h"
 #include "estimator/simple_estimator.h"
 #include <geometry_msgs/PoseStamped.h>
@@ -21,7 +22,7 @@ int main(int argc, char **argv) {
   rosbag::Bag bag;
   bag.open(argv[1]); // BagMode is Read by default
 
-  std::unique_ptr<Estimator> estimator = std::make_unique<EkfEstimator>();
+  std::unique_ptr<Estimator> estimator = std::make_unique<ComplementaryFilterEstimator>();
 
   for (const auto &m : rosbag::View(bag)) {
     const boost::shared_ptr<sensor_msgs::Imu> &imu_ptr =

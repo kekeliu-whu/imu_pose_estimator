@@ -5,7 +5,7 @@
 
 class Estimator {
 public:
-  Estimator() = default;
+  Estimator() : init_ok(false) {}
 
   virtual ~Estimator() = default;
 
@@ -26,6 +26,6 @@ protected:
   bool init_ok;
   Quaterniond pose;
   double last_timestamp;
-}; 
+};
 
 #endif // IMU_ESKF_ESTIMATOR_H
