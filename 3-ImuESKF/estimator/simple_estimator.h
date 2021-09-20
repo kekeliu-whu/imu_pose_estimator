@@ -5,7 +5,7 @@
 
 class SimpleEstimator : public Estimator {
 public:
-  SimpleEstimator() { this->init_ok = false; }
+  SimpleEstimator() = default;
 
   Quaterniond EstimatePose(double timestamp, const Vec3d &angular_velocity, const Vec3d &linear_acceleration) override;
 };
