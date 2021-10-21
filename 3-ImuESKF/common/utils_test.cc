@@ -21,6 +21,15 @@ TEST(UtilsTest, Qr) {
     EXPECT_LT((ans1 - ans2).norm(), kEpsilon);
 }
 
+TEST(UtilsTest, QrQl) {
+    auto q1 = Quaterniond::UnitRandom();
+    auto q2 = Quaterniond::UnitRandom();
+
+    auto ans1 = Ql(q1) * Qr(q2);
+    auto ans2 = Qr(q2) * Ql(q1);
+    EXPECT_LT((ans1 - ans2).norm(), kEpsilon);
+}
+
 //int main(int argc, char **argv) {
 //    ::testing::InitGoogleTest(&argc, argv);
 //    return RUN_ALL_TESTS();
