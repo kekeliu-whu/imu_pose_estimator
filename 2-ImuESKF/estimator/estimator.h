@@ -20,6 +20,7 @@ public:
   void InitPoseByGravity(const Vec3d &g) {
     // warning: FromTwoVectors() should be used as a static function
     this->pose = Quaterniond::FromTwoVectors(g, Vec3d::UnitZ());
+    this->init_ok = true;
   }
 
 protected:

@@ -11,7 +11,6 @@ Quaterniond ComplementaryFilterEstimator::EstimatePose(double timestamp, const V
   this->last_timestamp = timestamp;
   if (!this->init_ok) {
     this->InitPoseByGravity(acc_norm);
-    this->init_ok = true;
     return this->pose;
   }
 

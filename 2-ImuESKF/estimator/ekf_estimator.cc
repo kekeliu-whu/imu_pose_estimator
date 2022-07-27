@@ -35,7 +35,6 @@ Quaterniond EkfEstimator::EstimatePose(double timestamp, const Vec3d &angular_ve
   this->last_timestamp = timestamp;
   if (!this->init_ok) {
     this->InitPoseByGravity(acc_norm);
-    this->init_ok = true;
     this->P.setZero();
     this->g_w = acc_norm;
     return this->pose;

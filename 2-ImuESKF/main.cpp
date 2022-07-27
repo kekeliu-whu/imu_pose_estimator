@@ -14,7 +14,7 @@
 #include <thread>
 
 std::unique_ptr<tf2_ros::StaticTransformBroadcaster> static_broadcaster;
-std::unique_ptr<Estimator> estimator = std::make_unique<SimpleEstimator>();
+std::unique_ptr<Estimator> estimator = std::make_unique<ComplementaryFilterEstimator>();
 
 void chatterCallback(const sensor_msgs::Imu::ConstPtr &imu_ptr) {
   auto cur_timestamp = imu_ptr->header.stamp.toSec();
@@ -37,8 +37,6 @@ void chatterCallback(const sensor_msgs::Imu::ConstPtr &imu_ptr) {
   static_transformStamped.transform.rotation.z = quat.z();
   static_transformStamped.transform.rotation.w = quat.w();
   static_broadcaster->sendTransform(static_transformStamped);
-
-  std::cout << imu_ptr->header.seq << std::endl;
 }
 
 int main(int argc, char **argv) {

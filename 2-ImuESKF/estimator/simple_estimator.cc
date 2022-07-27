@@ -6,7 +6,6 @@ Quaterniond SimpleEstimator::EstimatePose(double timestamp, const Vec3d &angular
   this->last_timestamp = timestamp;
   if (!this->init_ok) {
     this->InitPoseByGravity(linear_acceleration);
-    this->init_ok = true;
     return this->pose;
   }
 
