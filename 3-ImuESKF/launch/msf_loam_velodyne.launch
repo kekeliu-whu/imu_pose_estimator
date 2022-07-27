@@ -1,0 +1,15 @@
+<launch>
+
+    <param name="robot_description" textfile="$(find imu_eskf)/urdf/model.urdf" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <node pkg="imu_eskf" type="imu_eskf_node" name="imu_eskf_node" output="screen" />
+
+    <node pkg="imu_eskf" type="android_ros_msg_bridge_node" name="android_ros_msg_bridge_node" output="screen" />
+
+    <arg name="rviz" default="true" />
+    <group if="$(arg rviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find imu_eskf)/cfg/imu_eskf.rviz" />
+    </group>
+
+</launch>

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+package com.example.imucollector.proto;
+
+message ImuData {
+  google.protobuf.Timestamp timestamp = 1;
+  uint32 seq = 2;
+  repeated float angular_velocity = 3;
+  repeated float linear_acceleration = 4;
+}
+
+// The greeting service definition
+service Greeter {
+  // Sends a greeting
+  rpc SendImuData (ImuData) returns (google.protobuf.Empty) {}
+}
