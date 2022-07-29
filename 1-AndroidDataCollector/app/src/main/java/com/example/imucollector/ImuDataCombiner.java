@@ -2,6 +2,7 @@ package com.example.imucollector;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 public class ImuDataCombiner {
@@ -28,12 +29,29 @@ public class ImuDataCombiner {
         map.put(timestamp, imuData);
     }
 
-    public Optional<ImuData> TryGetImuData(long timestamp) {
-        ImuData imuData = map.get(timestamp);
-        if (imuData != null && imuData.acc != null && imuData.ang != null) {
-            return Optional.of(imuData);
-        } else {
-            return Optional.empty();
+    public Optional<ImuData> TryPopOldestImuData() {
+        Iterator<Long> iter = map.ascendingKeySet().iterator();
+        if (iter.hasNext()) {
+            Long key = iter.next();
+            ImuData imuData = map.get(key);
+            if (imuData != null && imuData.acc != null && imuData.ang != null) {
+                map.remove(key);
+                return Optional.of(imuData);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public int Size() {
+        return map.size();
+    }
+
+    public void Clear() {
+        for (Long key : map.ascendingKeySet()) {
+            ImuData imuData = map.get(key);
+            if (imuData != null && imuData.acc != null && imuData.ang != null) {
+                map.remove(key);
+            }
         }
     }
 }
