@@ -6,23 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recordLabelText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch1"
+        android:id="@+id/switchSendImuData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextLog"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:editable="false"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:lines="1000"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextGrpcEndpointPort"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextGrpcEndpointIP"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="IP Address"
+        android:inputType="textPersonName"
+        android:text="192.168.0.108"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLog" />
+
+    <EditText
+        android:id="@+id/editTextGrpcEndpointPort"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Port"
+        android:inputType="textPersonName"
+        android:text="32345"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/switchSendImuData"
+        app:layout_constraintStart_toEndOf="@+id/editTextGrpcEndpointIP" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
