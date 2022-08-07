@@ -1,4 +1,5 @@
 #include "simple_estimator.h"
+#include "common/utils.h"
 
 Quaterniond SimpleEstimator::EstimatePose(double timestamp, const Vec3d &angular_velocity,
                                           const Vec3d &linear_acceleration) {
@@ -10,7 +11,7 @@ Quaterniond SimpleEstimator::EstimatePose(double timestamp, const Vec3d &angular
   }
 
   auto delta_theta = dt * angular_velocity;
-  auto dq = Quaterniond(1, delta_theta.x() / 2, delta_theta.y() / 2, delta_theta.z() / 2);
+  auto dq = deltaQ(delta_theta);
   this->pose *= dq;
   this->pose.normalize();
 

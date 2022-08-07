@@ -41,7 +41,7 @@ Quaterniond EkfEstimator::EstimatePose(double timestamp, const Vec3d &angular_ve
   }
 
   auto delta_theta = dt * angular_velocity;
-  auto dq = Quaterniond(1, delta_theta.x() / 2, delta_theta.y() / 2, delta_theta.z() / 2);
+  auto dq = deltaQ(delta_theta);
   Eigen::Matrix<double, 4, 4> F = Qr(dq);
 
   // predict

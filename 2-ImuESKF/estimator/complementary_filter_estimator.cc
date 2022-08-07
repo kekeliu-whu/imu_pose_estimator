@@ -15,7 +15,7 @@ Quaterniond ComplementaryFilterEstimator::EstimatePose(double timestamp, const V
   }
 
   auto delta_theta = dt * angular_velocity;
-  auto dq = Quaterniond(1, delta_theta.x() / 2, delta_theta.y() / 2, delta_theta.z() / 2);
+  auto dq = deltaQ(delta_theta);
   Quaterniond pose_prior = this->pose * dq;
   pose_prior.normalize();
 
