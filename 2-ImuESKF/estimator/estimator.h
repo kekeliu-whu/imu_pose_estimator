@@ -3,6 +3,8 @@
 
 #include "common/common.h"
 
+#define PRINT_MATRIX(x) std::cout << #x "=\n" << x << std::endl
+
 class Estimator {
 public:
   Estimator() : init_ok(false) {}

@@ -13,6 +13,10 @@ public:
 private:
   Eigen::Matrix4d P;
   Vec3d g_w;
+
+  // TODO fine-tune progress noise and measurement noise here.
+  const Eigen::Matrix4d R = Eigen::Matrix4d::Identity() * 0.1;
+  const Eigen::Matrix3d Q = Eigen::Matrix3d::Identity() * 0.1;
 };
 
 struct CostFunctor {

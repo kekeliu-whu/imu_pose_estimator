@@ -13,7 +13,7 @@ $R_w^t$ and $b$ are varibles to be estimated.
 
 
 ## Prediction
-From eskf, we get state of true/nominal/error denoted as $x_t=x+\delta{t}$.
+From eskf, we get state of true/nominal/error denoted as $x_t=x+\delta{x}$.
 ### True state
 $$
 \begin{equation}
@@ -38,7 +38,7 @@ $$
 $$
 \begin{equation}
 \begin{split}
-\dot{\delta\theta} &= -(w_m-b) \delta\theta - \delta{b} - n_w \\
+\dot{\delta\theta} &= -(w_m-b)^\wedge \delta\theta - \delta{b} - n_w \\
 \dot{\delta b} &= n_b
 \end{split}
 \end{equation}
