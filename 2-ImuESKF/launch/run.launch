@@ -1,9 +1,15 @@
 <launch>
 
+    <!-- PLEASE SET filter_type here. -->
+    <!-- <arg name="filter_type" value="sf" /> -->
+    <!-- <arg name="filter_type" value="ekf" /> -->
+    <arg name="filter_type" value="eskf" />
+    <!-- <arg name="filter_type" value="cf" /> -->
+
     <param name="robot_description" textfile="$(find imu_eskf)/urdf/model.urdf" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-    <node pkg="imu_eskf" type="imu_eskf_node" name="imu_eskf_node" output="screen" />
+    <node pkg="imu_eskf" type="imu_eskf_node" name="imu_eskf_node" output="screen" args="--filter_type $(arg filter_type)" />
 
     <node pkg="imu_eskf" type="android_ros_msg_bridge_node" name="android_ros_msg_bridge_node" output="screen" />
 
