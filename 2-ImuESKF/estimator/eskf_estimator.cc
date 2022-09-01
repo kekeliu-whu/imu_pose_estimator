@@ -52,12 +52,16 @@ Quaterniond EskfEstimator::EstimatePose(double timestamp, const Vec3d &angular_v
   this->bg_ = this->bg_ + x_posterior.tail<3>();
   this->P_ = P_posterior;
 
+  // double slope_degree = (Eigen::Vector3d::UnitZ() - x_prior.inverse() * this->gw_).norm() * 180 / M_PI;
+  // PRINT_MATRIX(slope_degree);
+  // PRINT_MATRIX(x_posterior);
   // PRINT_MATRIX(P_);
   // PRINT_MATRIX(P_prior);
   // PRINT_MATRIX(K);
   // PRINT_MATRIX(x_posterior);
   // PRINT_MATRIX(P_posterior);
-  // std::cout << "\n\n";
+  PRINT_MATRIX(this->bg_);
+  std::cout << "\n\n";
 
   return this->pose;
 }

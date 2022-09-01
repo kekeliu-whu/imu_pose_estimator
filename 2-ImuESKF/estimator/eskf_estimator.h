@@ -21,11 +21,13 @@ private:
   Vec3d gw_;
   Vec3d bg_;
 
-  // from imu_util result
-  const double gyr_n = 1.2138209013030823e-03;
-  const double gyr_w = 2.0725450906070991e-05;
-  const double acc_n = 1.9881978694148459e-02;
   // TODO fine-tune progress noise and measurement noise here.
+  // result from https://github.com/ori-drs/allan_variance_ros
+  const double gyr_n = 9.285066316933984e-05;
+  const double gyr_w = 3.231516336970033e-06;
+  // *10 because natural accelemeter noise are much bigger when IMU and dynamic
+  const double acc_n = 0.0016689945925889259 * 5;
+
   Eigen::Matrix<double, 6, 6> R_;
   Eigen::Matrix<double, 3, 3> Q_;
 };
